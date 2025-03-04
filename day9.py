@@ -1,46 +1,77 @@
 import random
-rock='''
-_______
----   ____)
-      (_)
-      (_)
-      ()
----.(_)
+
+
+rock = '''
+    _______
+---'   ____)
+      (_____)
+      (_____)
+      (____)
+---.__(___)
 ROCK'''
-paper='''_______
----'    ___)___
-           ______)
+
+paper = '''
+    _______
+---'   ____)____
+          ______)
           _______)
          _______)
----.)
-PAPER '''
-scissor=''' _______
----'   ___)___
+---.__________)
+PAPER'''
+
+scissors = '''
+    _______
+---'   ____)____
           ______)
        __________)
-      ()
----.(_)
+      (____)
+---.__(___)
 SCISSORS'''
-lt=[rock,paper,scissor]
-import random
-user=int(input("Enter a number0,1,2\n"))
-print(lt[user])
-if(user<0 or user>2):
-    print("invaild")
-computer=random.randint(0,2)
-print(f"computer chose:")
-print(lt[computer])
-if(user==0 and computer==1):
-    print("bot win")
-if(user==1 and computer==0):
-    print("i win")
-if(user==0 and computer==2):
-    print("i win")
-if(user==2 and computer==0):
-    print("bot win")
-if(user==1 and computer==2):
-    print("bot win")
-if(user==2 and computer==1):
-    print("i win")
 
-    
+choices = [rock, paper, scissors]
+choices_text = ["Rock", "Paper", "Scissors"]
+
+points = 0  
+
+while True:
+    try:
+        user = int(input("\nEnter a number (0: Rock, 1: Paper, 2: Scissors): "))
+        
+        if user not in [0, 1, 2]:
+            print("❌ Invalid input! Please enter 0, 1, or 2.")
+            continue
+
+        print(f"\nYou chose {choices_text[user]}:\n{choices[user]}")
+
+        computer = random.randint(0, 2)
+        print(f"\nComputer chose {choices_text[computer]}:\n{choices[computer]}")
+
+        results = {
+            (0, 1): "❌ You lose! Paper covers Rock.",
+            (1, 2): "❌ You lose! Scissors cut Paper.",
+            (2, 0): "❌ You lose! Rock smashes Scissors.",
+            (1, 0): "✅ You win! Paper covers Rock.",
+            (2, 1): "✅ You win! Scissors cut Paper.",
+            (0, 2): "✅ You win! Rock smashes Scissors."
+        }
+
+        if user == computer:
+            print("🤝 It's a tie!")
+        elif (user, computer) in results:
+            print(results[(user, computer)])
+            if "✅ You win!" in results[(user, computer)]:
+                points += 1
+        else:
+            print(results[(computer, user)])  
+            print(f"\n❌ You lost! Final Score: {points} points.")
+            break  
+
+        print(f"🎯 Current Points: {points}")
+
+        play_again = input("\nPlay again? (y/n): ").strip().lower()
+        if play_again != 'y':
+            print(f"Thanks for playing! 🎮 Final Score: {points} points.")
+            break
+
+    except ValueError:
+        print("❌ Invalid input! Please enter a number (0, 1, or 2).")
